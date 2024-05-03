@@ -7,7 +7,7 @@ import me.blueslime.wardenplugin.platform.Platform;
 
 import java.io.File;
 
-public abstract class WardenModule<T> {
+public abstract class WardenModule<T> implements PluginModule {
     private final WardenPlugin<T> plugin;
 
     public WardenModule(WardenPlugin<T> plugin) {

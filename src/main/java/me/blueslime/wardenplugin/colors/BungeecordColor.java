@@ -36,6 +36,8 @@ public class BungeecordColor extends ColorHandler<String> {
             }
         }
 
-        return ChatColor.translateAlternateColorCodes('&', message);
+        message = ChatColor.translateAlternateColorCodes('&', message);
+
+        return getWardenResult(message);
     }
 }

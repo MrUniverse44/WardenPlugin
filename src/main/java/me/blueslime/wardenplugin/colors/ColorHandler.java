@@ -1,9 +1,13 @@
 package me.blueslime.wardenplugin.colors;
 
+import me.blueslime.wardenplugin.colors.warden.BukkitWarden;
+import me.blueslime.wardenplugin.colors.warden.BungeecordWarden;
+import me.blueslime.wardenplugin.colors.warden.ComponentWarden;
 import me.blueslime.wardenplugin.platform.Platform;
 
 public abstract class ColorHandler<T> {
     private static ColorHandler<?> INSTANCE = null;
+    private static WardenColor<?, ?> WARDEN = null;
 
     public ColorHandler() { }
 
@@ -22,13 +26,17 @@ public abstract class ColorHandler<T> {
         if (id == 0) {
             try {
                 Class.forName("net.md_5.bungee.api.ChatColor");
+                WARDEN = new BungeecordWarden();
                 return new BungeecordColor();
             } catch (ClassNotFoundException var1) {
+                WARDEN = new BukkitWarden();
                 return new BukkitColor();
             }
         } else if (id == 1) {
+            WARDEN = new BungeecordWarden();
             return new BungeecordColor();
         } else {
+            WARDEN = new ComponentWarden();
             return new ComponentColor();
         }
     }
@@ -51,5 +59,10 @@ public abstract class ColorHandler<T> {
             return null;
         }
         return (T)get().execute(text);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <F, E> F getWardenResult(E entry) {
+        return ((WardenColor<F, E>) WARDEN).build(entry);
     }
 }

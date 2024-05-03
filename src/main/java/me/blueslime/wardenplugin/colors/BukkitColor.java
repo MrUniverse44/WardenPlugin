@@ -7,6 +7,8 @@ public class BukkitColor extends ColorHandler<String> {
     }
 
     public String execute(String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
+        text = ChatColor.translateAlternateColorCodes('&', text);
+        
+        return getWardenResult(text);
     }
 }

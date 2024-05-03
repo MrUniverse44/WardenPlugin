@@ -3,6 +3,8 @@ package me.blueslime.wardenplugin;
 import me.blueslime.wardenplugin.configuration.ConfigurationProvider;
 import me.blueslime.wardenplugin.information.WardenInformation;
 import me.blueslime.wardenplugin.logs.WardenLogs;
+import me.blueslime.wardenplugin.modules.ModuleContainer;
+import me.blueslime.wardenplugin.modules.PluginModule;
 import me.blueslime.wardenplugin.modules.WardenModule;
 import me.blueslime.wardenplugin.platform.Platform;
 import me.blueslime.wardenplugin.providers.Provider;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public abstract class WardenPlugin<T>  {
     private final Map<Class<?>, WardenModule<T>> moduleMap = new HashMap<>();
@@ -43,15 +44,23 @@ public abstract class WardenPlugin<T>  {
         return (K) moduleMap.get(module);
     }
 
-    @SafeVarargs
-    public final void registerModule(WardenModule<T>... modules) {
-        for (WardenModule<T> module : modules) {
-            moduleMap.put(module.getClass(), module);
+    public final void registerModule(ModuleContainer... containers) {
+        if (containers == null) {
+            return;
         }
-    }
+        for (ModuleContainer container : containers) {
+            ModuleContainer finalContainer = container.verify(platform.getId());
 
-    public void registerModules(Consumer<Integer> consumer) {
-        consumer.accept(platform.getId());
+            if (finalContainer == null) {
+                continue;
+            }
+
+            for (PluginModule module : finalContainer.getModuleList()) {
+                if (module instanceof WardenModule) {
+                    moduleMap.put(module.getClass(), (WardenModule<T>) module);
+                }
+            }
+        }
     }
 
     public abstract void registration();

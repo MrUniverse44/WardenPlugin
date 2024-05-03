@@ -6,4 +6,5 @@ public class Platforms {
     public static final int SPONGE = 3;
     public static final int VELOCITY = 2;
     public static final int BUNGEE_CORD = 1;
+    public static final int UNIVERSAL = 4;
 }
