@@ -5,7 +5,6 @@ import me.blueslime.wardenplugin.information.WardenInformation;
 import me.blueslime.wardenplugin.logs.WardenLogs;
 import me.blueslime.wardenplugin.modules.ModuleContainer;
 import me.blueslime.wardenplugin.modules.PluginModule;
-import me.blueslime.wardenplugin.modules.WardenModule;
 import me.blueslime.wardenplugin.platform.Platform;
 import me.blueslime.wardenplugin.providers.Provider;
 import me.blueslime.wardenplugin.providers.ProviderBuilder;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class WardenPlugin<T>  {
-    private final Map<Class<?>, WardenModule<T>> moduleMap = new HashMap<>();
+    private final Map<Class<?>, PluginModule> moduleMap = new HashMap<>();
     private final Provider provider;
     private final Platform platform;
     private final T plugin;
@@ -40,7 +39,7 @@ public abstract class WardenPlugin<T>  {
         return provider;
     }
 
-    public <K extends WardenModule<T>> K getModule(Class<K> module) {
+    public <K extends PluginModule> K getModule(Class<K> module) {
         return (K) moduleMap.get(module);
     }
 
@@ -56,9 +55,7 @@ public abstract class WardenPlugin<T>  {
             }
 
             for (PluginModule module : finalContainer.getModuleList()) {
-                if (module instanceof WardenModule) {
-                    moduleMap.put(module.getClass(), (WardenModule<T>) module);
-                }
+                moduleMap.put(module.getClass(), module);
             }
         }
     }
@@ -84,25 +81,25 @@ public abstract class WardenPlugin<T>  {
     public void initialize() {
         registration();
 
-        List<WardenModule<T>> moduleList = new ArrayList<>(moduleMap.values());
+        List<PluginModule> moduleList = new ArrayList<>(moduleMap.values());
 
-        for (WardenModule<T> module : moduleList) {
+        for (PluginModule module : moduleList) {
             module.initialize();
         }
     }
 
     public void shutdown() {
-        List<WardenModule<T>> moduleList = new ArrayList<>(moduleMap.values());
+        List<PluginModule> moduleList = new ArrayList<>(moduleMap.values());
 
-        for (WardenModule<T> module : moduleList) {
+        for (PluginModule module : moduleList) {
             module.shutdown();
         }
     }
 
     public void reload() {
-        List<WardenModule<T>> moduleList = new ArrayList<>(moduleMap.values());
+        List<PluginModule> moduleList = new ArrayList<>(moduleMap.values());
 
-        for (WardenModule<T> module : moduleList) {
+        for (PluginModule module : moduleList) {
             module.reload();
         }
     }

@@ -39,4 +39,10 @@ public abstract class WardenModule<T> implements PluginModule {
     public WardenPlugin<T> getPlugin() {
         return plugin;
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <K> WardenModule<K> asWardenModule() {
+        return (WardenModule<K>) this;
+    }
 }

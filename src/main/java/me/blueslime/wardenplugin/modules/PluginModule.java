@@ -24,4 +24,8 @@ public interface PluginModule {
     File getDataFolder();
 
     WardenPlugin<?> getPlugin();
+
+    default <T> WardenModule<T> asWardenModule() {
+        return null;
+    }
 }
