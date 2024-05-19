@@ -24,7 +24,7 @@ public class ModuleContainer {
 
     public ModuleContainer verify(int platform) {
         if (platform != this.platform && platform != Platforms.UNIVERSAL) {
-            return this;
+            return null;
         }
         PluginConsumer.process(
             () -> executable.execute(this)
