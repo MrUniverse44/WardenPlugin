@@ -1,5 +1,6 @@
 package me.blueslime.wardenplugin.modules;
 
+import me.blueslime.wardenplugin.logs.WardenLogs;
 import me.blueslime.wardenplugin.platform.Platforms;
 import me.blueslime.wardenplugin.utils.PluginConsumer;
 import me.blueslime.wardenplugin.utils.PluginExecutable;
@@ -22,10 +23,13 @@ public class ModuleContainer {
         return new ModuleContainer(platform, consumer);
     }
 
-    public ModuleContainer verify(int platform) {
+    public ModuleContainer verify(WardenLogs logs, int platform) {
+        logs.info(platform + " id verifying with " + this.platform);
         if (platform != this.platform && platform != Platforms.UNIVERSAL) {
+            logs.info("Platform not found: " + this.platform + " for " + platform);
             return null;
         }
+        logs.info("Continued");
         PluginConsumer.process(
             () -> executable.execute(this)
         );

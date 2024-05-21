@@ -27,9 +27,9 @@ public abstract class WardenPlugin<T>  {
         if (getClass().isAnnotationPresent(WardenInformation.class)) {
             WardenInformation info = getClass().getAnnotation(WardenInformation.class);
 
-            platform = Platform.build(plugin, PlatformUtil.getPlatform(), info.getName(), info.getAuthor(), info.getVersion(), info.getDescription(), info.getCollaborators());
+            platform = Platform.build(plugin, PlatformUtil.getPlatform(plugin.getClass()), info.getName(), info.getAuthor(), info.getVersion(), info.getDescription(), info.getCollaborators());
         } else {
-            platform = Platform.build(PlatformUtil.getPlatform(), plugin);
+            platform = Platform.build(PlatformUtil.getPlatform(plugin.getClass()), plugin);
         }
 
         provider = ProviderBuilder.fromPlatform(platform, plugin);
@@ -48,7 +48,7 @@ public abstract class WardenPlugin<T>  {
             return;
         }
         for (ModuleContainer container : containers) {
-            ModuleContainer finalContainer = container.verify(platform.getId());
+            ModuleContainer finalContainer = container.verify(getLogs(), platform.getId());
 
             if (finalContainer == null) {
                 continue;
