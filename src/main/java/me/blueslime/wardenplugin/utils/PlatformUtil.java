@@ -51,23 +51,25 @@ public class PlatformUtil {
    private static final Class<?> bungeecordPlugin = PluginConsumer.ofUnchecked(
         () -> Class.forName("net.md_5.bungee.api.plugin.Plugin"),
         e -> {},
-        null
+       () -> null
     );
 
     private static final Class<?> velocityProxy = PluginConsumer.ofUnchecked(
         () -> Class.forName("com.velocitypowered.api.proxy.ProxyServer"),
         e -> {},
-        null
+        () -> null
     );
 
     private static final Class<?> spongeServer = PluginConsumer.ofUnchecked(
-        () -> Class.forName("org.spongepowered.api.Server")
+        () -> Class.forName("org.spongepowered.api.Server"),
+        e -> {},
+        () -> null
     );
 
     private static final Class<?> javaPlugin = PluginConsumer.ofUnchecked(
         () -> Class.forName("org.bukkit.plugin.java.JavaPlugin"),
         e -> {},
-        null
+        () -> null
     );
 
     private static int detect(Class<?> clazzObject, int defResult) {

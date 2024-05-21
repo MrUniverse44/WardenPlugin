@@ -51,7 +51,9 @@ public interface PluginConsumer<T> {
         try {
             results = template.executeConsumer();
         } catch (Exception var5) {
-            results = defValue.accept();
+            if (defValue != null) {
+                results = defValue.accept();
+            }
             exception.accept(var5);
         }
 
