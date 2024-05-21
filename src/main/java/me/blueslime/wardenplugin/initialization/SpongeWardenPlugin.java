@@ -5,6 +5,6 @@ import org.spongepowered.api.Server;
 
 public abstract class SpongeWardenPlugin extends WardenPlugin<Server> {
     public SpongeWardenPlugin(Server plugin) {
-        super(plugin);
+        super(plugin.getClass(), plugin);
     }
 }

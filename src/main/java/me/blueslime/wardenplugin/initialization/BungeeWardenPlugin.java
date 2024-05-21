@@ -5,6 +5,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public abstract class BungeeWardenPlugin extends WardenPlugin<Plugin> {
     public BungeeWardenPlugin(Plugin plugin) {
-        super(plugin);
+        super(plugin.getClass(), plugin);
     }
 }

@@ -23,13 +23,10 @@ public class ModuleContainer {
         return new ModuleContainer(platform, consumer);
     }
 
-    public ModuleContainer verify(WardenLogs logs, int platform) {
-        logs.info(platform + " id verifying with " + this.platform);
+    public ModuleContainer verify(int platform) {
         if (platform != this.platform && platform != Platforms.UNIVERSAL) {
-            logs.info("Platform not found: " + this.platform + " for " + platform);
             return null;
         }
-        logs.info("Continued");
         PluginConsumer.process(
             () -> executable.execute(this)
         );

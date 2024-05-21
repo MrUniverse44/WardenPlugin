@@ -22,14 +22,19 @@ public abstract class WardenPlugin<T>  {
     private final Platform platform;
     private final T plugin;
 
-    public WardenPlugin(T plugin) {
+    /**
+     * Verification only supports JavaPlugin from Bukkit, Plugin from Bungeecord, ProxyServer from velocity and Server from Sponge
+     * @param verification class
+     * @param plugin instance
+     */
+    public WardenPlugin(Class<?> verification, T plugin) {
         this.plugin = plugin;
         if (getClass().isAnnotationPresent(WardenInformation.class)) {
             WardenInformation info = getClass().getAnnotation(WardenInformation.class);
 
-            platform = Platform.build(plugin, PlatformUtil.getPlatform(plugin.getClass()), info.getName(), info.getAuthor(), info.getVersion(), info.getDescription(), info.getCollaborators());
+            platform = Platform.build(plugin, PlatformUtil.getPlatform(verification), info.getName(), info.getAuthor(), info.getVersion(), info.getDescription(), info.getCollaborators());
         } else {
-            platform = Platform.build(PlatformUtil.getPlatform(plugin.getClass()), plugin);
+            platform = Platform.build(PlatformUtil.getPlatform(verification), plugin);
         }
 
         provider = ProviderBuilder.fromPlatform(platform, plugin);
@@ -48,7 +53,7 @@ public abstract class WardenPlugin<T>  {
             return;
         }
         for (ModuleContainer container : containers) {
-            ModuleContainer finalContainer = container.verify(getLogs(), platform.getId());
+            ModuleContainer finalContainer = container.verify(platform.getId());
 
             if (finalContainer == null) {
                 continue;

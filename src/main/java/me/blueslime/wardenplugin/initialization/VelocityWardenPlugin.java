@@ -5,6 +5,6 @@ import me.blueslime.wardenplugin.WardenPlugin;
 
 public abstract class VelocityWardenPlugin extends WardenPlugin<ProxyServer> {
     public VelocityWardenPlugin(ProxyServer plugin) {
-        super(plugin);
+        super(plugin.getClass(), plugin);
     }
 }
